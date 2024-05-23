@@ -11,7 +11,7 @@ describe("E2E test for product", () => {
   });
 
   it("should create a product", async () => {
-    const response = await request(app).post("/product").send({
+    const response = await request(app).post("/products").send({
       name: "Product 1",
       price: 100,
     });
@@ -22,7 +22,7 @@ describe("E2E test for product", () => {
   });
 
   it("should not create a new product", async () => {
-    const response = await request(app).post("/product").send({
+    const response = await request(app).post("/products").send({
       value: 100,
     });
 
@@ -30,12 +30,12 @@ describe("E2E test for product", () => {
   });
 
   it("should list all products", async () => {
-    const output = await request(app).post("/product").send({
+    const output = await request(app).post("/products").send({
       name: "Product 1",
       price: 100,
     });
 
-    const response = await request(app).get("/product").send({});
+    const response = await request(app).get("/products").send({});
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("products");
     expect(response.body.products.length).toBe(1);
@@ -44,13 +44,13 @@ describe("E2E test for product", () => {
   });
 
   it("should be able to find an specific product", async () => {
-    const output = await request(app).post("/product").send({
+    const output = await request(app).post("/products").send({
       name: "Product 1",
       price: 100,
     });
 
     const response = await request(app)
-      .get(`/product/${output.body.id}`)
+      .get(`/products/${output.body.id}`)
       .send({});
 
     expect(response.status).toBe(200);
@@ -60,20 +60,22 @@ describe("E2E test for product", () => {
   });
 
   it("should not find an product if invalid id", async () => {
-    const response = await request(app).get(`/product/0`).send({});
+    const response = await request(app).get(`/products/0`).send({});
     expect(response.status).toBe(404);
   });
 
   it("should be able to update an existing product", async () => {
-    const output = await request(app).post("/product").send({
+    const output = await request(app).post("/products").send({
       name: "Product 1",
       price: 100,
     });
 
-    const response = await request(app).put(`/product/${output.body.id}`).send({
-      name: "Product 2",
-      price: 200,
-    });
+    const response = await request(app)
+      .put(`/products/${output.body.id}`)
+      .send({
+        name: "Product 2",
+        price: 200,
+      });
 
     expect(response.status).toBe(200);
     expect(response.body.id).toBe(output.body.id);
