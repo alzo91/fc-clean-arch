@@ -1,7 +1,10 @@
-import Product from "../../../domain/product/entity/product";
-
 export interface InputListProductDTO {}
 
+export interface ProductDTO {
+  id: string;
+  name: string;
+  price: number;
+}
 export interface OutputListProductDTO {
-  products: Product[];
+  products: ProductDTO[];
 }

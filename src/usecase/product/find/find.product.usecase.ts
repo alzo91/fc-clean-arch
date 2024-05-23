@@ -9,6 +9,9 @@ class FindProductUseCase {
   }
 
   async execute(input: InputFindProductDTO): Promise<OutputFindProductDTO> {
+    if (!input.id) {
+      throw new Error("invalid argument");
+    }
     const product = await this.productRepository.find(input.id);
     return {
       id: product.id,

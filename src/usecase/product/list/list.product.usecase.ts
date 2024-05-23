@@ -10,7 +10,11 @@ class ListProductUseCase {
     const products = await this.productRepository.findAll();
 
     return {
-      products,
+      products: products.map((product) => ({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+      })),
     };
   }
 }
