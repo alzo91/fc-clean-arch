@@ -19,10 +19,10 @@ export class ProductYupValidator implements ValidatorInterface<Product> {
             name: entity.name,
             price: entity.price,
           },
-          { abortEarly: true }
+          { abortEarly: false }
         );
-    } catch (err) {
-      const e = err as Yup.ValidationError;
+    } catch (errors) {
+      const e = errors as Yup.ValidationError;
       e.errors.forEach((error) => {
         entity.notification.addError({
           context: "product",
